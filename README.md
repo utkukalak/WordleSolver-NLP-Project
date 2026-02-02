@@ -120,16 +120,17 @@ is compared against an entropy-only baseline
 
 Results show that moderate n-gram weights slightly improve the average number of guesses and 
 accuracy but does not impact a lot on overall success. However, highest scores was chosen 
-(beta_bigram = 0.3, beta_trigram = 0.3) for the combined score calculation.
+(`beta_bigram = 0.3, beta_trigram = 0.3`) for the combined score calculation.
 
-Grid search (rounds=150) over betas: [0.0, 0.3, 0.6, 0.9, 1.2, 1.5]
+Grid Search results (rounds=150) over betas: [0.0, 0.3, 0.6, 0.9, 1.2, 1.5]
 
-β_bigram | β_trigram | Accuracy  | Avg guesses | Time (s)
----------------------------------------------------------
-   0.30 |     0.30 |     99.33% |     3.8800 |   20.95
-   0.60 |     0.90 |     99.33% |     3.9400 |   20.26
-   0.60 |     0.30 |     98.67% |     3.8400 |   17.79
-   0.30 |     0.90 |     98.67% |     3.8533 |   18.01
+| β_bigram | β_trigram | Success Rate | Avg. Guesses | Runtime (s) |
+|---------:|----------:|-------------:|-------------:|------------:|
+| 0.30 | 0.30 | 99.33% | 3.88 | 20.95 |
+| 0.60 | 0.90 | 99.33% | 3.94 | 20.26 |
+| 0.60 | 0.30 | 98.67% | 3.84 | 17.79 |
+| 0.30 | 0.90 | 98.67% | 3.85 | 18.01 |
+
 
 ---
 
