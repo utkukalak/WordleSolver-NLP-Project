@@ -92,18 +92,18 @@ This maximizes early information by exposing common letters while avoiding redun
 
 The combined score used to select guesses is:
 
-\[
+$$
 \text{score}(w) =
 H(w)
 + \beta_{\text{bigram}} \cdot \dynamic_factor \cdot \text{norm\_bigram}(w)
 + \beta_{\text{trigram}} \cdot \dynamic_factor \cdot \text{norm\_trigram}(w)
-\]
+$$
 
 where:
 
-\[
-\alpha = \frac{|\text{possible\_words}|}{|\text{word\_list}|}
-\]
+$$
+\dynamic_factor = \frac{|\text{possible\_words}|}{|\text{word\_list}|}
+$$
 
 This formulation balances information gain with language plausibility in a
 search-space-aware manner.
