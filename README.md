@@ -92,45 +92,46 @@ This maximizes early information by exposing common letters while avoiding redun
 
 The combined score used to select guesses is:
 
-$$
-\text{score}(w) =
-H(w)
-+ \beta_{\text{bigram}} \cdot \dynamic_factor \cdot \text{norm\_bigram}(w)
-+ \beta_{\text{trigram}} \cdot \dynamic_factor \cdot \text{norm\_trigram}(w)
-$$
+score(w) = entropy
+         + beta_bigram * dynamic_factor * norm_bigram
+         + beta_trigram * dynamic_factor * norm_trigram
+
 
 where:
-
-$$
-\dynamic_factor = \frac{|\text{possible\_words}|}{|\text{word\_list}|}
-$$
+  
+  dynamic_factor = len(possible_words) / len(word_list)
 
 This formulation balances information gain with language plausibility in a
 search-space-aware manner.
 
-In code form:
-
-score(w) = entropy
-         + beta_bigram * dynamic_factor * norm_bigram(w)
-         + beta_trigram * dynamic_factor * norm_trigram(w)
-
 ---
+
 ## 5- Parameter Hypertuning
 
-The weights of the bigram and trigram language priors  
-(\(\beta_{\text{bigram}}\), \(\beta_{\text{trigram}}\)) were tuned using a simple grid search.  
-For each parameter pair, the solver was evaluated over a fixed number of Wordle games
-under a deterministic random seed to ensure fair comparison.
+The weights of the bigram and trigram language priors (`beta_bigram`, `beta_trigram`)
+were tuned using a simple grid search. For each parameter pair, the solver was evaluated
+over a fixed number of Wordle games under a deterministic random seed to ensure fair
+comparison.
 
 The grid search ranks parameter combinations by success rate, average number of guesses,
 and runtime. To assess the practical impact of language priors, the tuned configuration
-is compared against an entropy-only baseline
-(\(\beta_{\text{bigram}} = \beta_{\text{trigram}} = 0\)) and a higher-weight default configuration.
+is compared against an entropy-only baseline 
+(`beta_bigram = beta_trigram = 0`) and a higher-weight default configuration.
 
-Results show that moderate n-gram weights slightly improve the average number of guesses,
-while excessively large weights degrade performance, confirming that language priors
-should assist—but not dominate—the entropy-based decision process.
+Results show that moderate n-gram weights slightly improve the average number of guesses and 
+accuracy but does not impact a lot on overall success. However, highest scores was chosen 
+(beta_bigram = 0.3, beta_trigram = 0.3) for the combined score calculation.
 
+Grid search (rounds=150) over betas: [0.0, 0.3, 0.6, 0.9, 1.2, 1.5]
+
+β_bigram | β_trigram | Accuracy  | Avg guesses | Time (s)
+---------------------------------------------------------
+   0.30 |     0.30 |     99.33% |     3.8800 |   20.95
+   0.60 |     0.90 |     99.33% |     3.9400 |   20.26
+   0.60 |     0.30 |     98.67% |     3.8400 |   17.79
+   0.30 |     0.90 |     98.67% |     3.8533 |   18.01
+
+---
 
 ## 6- Results
 
@@ -138,15 +139,15 @@ Evaluation on train list:
 
   Over 500 Wordle games:
 
-  - **Success rate**: 97.2%  
+  - **Success rate**: 97.20%  
   - **Average guesses**: ~4.01
-  - **Runtime**: ~42 seconds  
+  - **Runtime**: ~69 seconds  
 
   Over 5000 Wordle games:
 
   - **Success rate**: 97.34%  
   - **Average guesses**: ~3.995
-  - **Runtime**: ~428 seconds 
+  - **Runtime**: ~687 seconds 
 
 Evaluation on dev list (500 unseen word list):
 
